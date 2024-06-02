@@ -1,0 +1,21 @@
+services:
+  pg_chainlink:
+    image: "postgres:latest"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "mysecretkeystorepassword"
+      POSTGRES_DB: "postgres"
+    volumes:
+      - "./db-volumes:/var/lib/postgresql/data"
+  chainlink:
+    platform: linux/x86_64/v8
+    image: "smartcontract/chainlink:2.11.0"
+    depends_on:
+      - pg_chainlink
+    ports:
+      - "6688:6688"
+    volumes:
+      - "./chainlink-volumes:/chainlink"
+    command: node -config /chainlink/config.toml -secrets /chainlink/secrets.toml start --password /chainlink/password.txt --api /chainlink/uipassword.txt

@@ -30,3 +30,7 @@ packages/k6/src/config/http.json
 # Secrets
 .envrc
 .env
+
+# Docker volumes
+db-volumes
+# chainlink-volumes
